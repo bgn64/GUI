@@ -43,9 +43,9 @@ public partial class MainWindowViewModel : ViewModelBase
                 return res;
             }
 
-            res += $" {SecondNumber}";
+            res += $" {SecondNumber} =";
 
-            return "";
+            return res;
         }
     }
 
@@ -182,11 +182,15 @@ public partial class MainWindowViewModel : ViewModelBase
         if (TryComputeBinaryResult(out double res))
         {
             FirstNumber = res.ToString();
-            Operator = null;
-            SecondNumber = null;
+        }
+        else
+        {
+            FirstNumber = InputNumber;
         }
 
+        InputNumber = null;
         Operator = "+";
+        SecondNumber = null;
     }
 
     [RelayCommand]
@@ -195,15 +199,15 @@ public partial class MainWindowViewModel : ViewModelBase
         if (TryComputeBinaryResult(out double res))
         {
             FirstNumber = res.ToString();
-            Operator = null;
-            SecondNumber = null;
-        }
-        else if (InputNumber is not null)
+        } 
+        else
         {
             FirstNumber = InputNumber;
         }
 
+        InputNumber = null;
         Operator = "-";
+        SecondNumber = null;
     }
 
     [RelayCommand]
@@ -212,16 +216,15 @@ public partial class MainWindowViewModel : ViewModelBase
         if (TryComputeBinaryResult(out double res))
         {
             FirstNumber = res.ToString();
-            Operator = null;
-            SecondNumber = null;
         }
-        else if (InputNumber is not null)
+        else
         {
             FirstNumber = InputNumber;
         }
 
-        FirstNumber = InputNumber;
+        InputNumber = null;
         Operator = "*";
+        SecondNumber = null;
     }
 
     [RelayCommand]
@@ -230,15 +233,15 @@ public partial class MainWindowViewModel : ViewModelBase
         if (TryComputeBinaryResult(out double res))
         {
             FirstNumber = res.ToString();
-            Operator = null;
-            SecondNumber = null;
-        }
-        else if (InputNumber is not null)
+        } 
+        else
         {
             FirstNumber = InputNumber;
         }
 
+        InputNumber = null;
         Operator = "/";
+        SecondNumber = null;
     }
 
     [RelayCommand]
@@ -248,15 +251,23 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             SecondNumber = InputNumber;
             InputNumber = res.ToString();
-        }
+        } 
     }
 
+    [RelayCommand]
+    void C()
+    {
+        InputNumber = "0";
+        FirstNumber = null;
+        Operator = null;
+        SecondNumber = null;
+    }
 
     bool TryComputeBinaryResult(out double d)
     {
         d = 0;
 
-        if (Operator is null || !double.TryParse(FirstNumber, out double d1) || !double.TryParse(FirstNumber, out double d2))
+        if (Operator is null || SecondNumber is not null || !double.TryParse(FirstNumber, out double d1) || !double.TryParse(InputNumber, out double d2))
         {
             return false;
         }
