@@ -12,4 +12,7 @@ public partial class WordItemViewModel : ViewModelBase
 
     [ObservableProperty]
     string _text = "";
+
+    [ObservableProperty]
+    bool _isSelected;
 }

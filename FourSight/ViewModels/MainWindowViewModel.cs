@@ -8,6 +8,9 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     ObservableCollection<WordItemViewModel> _wordItems;
 
+    [ObservableProperty]
+    ObservableCollection<MistakeViewModel> _mistakesRemaining;
+
     public MainWindowViewModel()
     {
         WordItems = new ObservableCollection<WordItemViewModel>();
@@ -23,6 +26,13 @@ public partial class MainWindowViewModel : ViewModelBase
                     Text = $"Word{row}{col}"
                 });
             }
+        }
+
+        MistakesRemaining = new ObservableCollection<MistakeViewModel>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            MistakesRemaining.Add(new MistakeViewModel());
         }
     }
 }

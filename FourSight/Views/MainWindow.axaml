@@ -15,17 +15,55 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+        <TextBlock HorizontalAlignment="Center" Text="Create groups of four!" />
+
         <ItemsControl ItemsSource="{Binding WordItems}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid ColumnDefinitions="*, *, *, *" RowDefinitions="*, *, *, *" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="vm:WordItemViewModel">
-                    <Button Grid.Row="{Binding Row}" Grid.Column="{Binding Column}" 
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                            Content="{Binding Text}" />
+                    <ToggleButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                  IsChecked="{Binding IsSelected}"
+                                  Content="{Binding Text}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+            <ItemsControl.Styles>
+                <Style Selector="ContentPresenter" x:DataType="vm:WordItemViewModel">
+                    <Setter Property="Grid.Row" Value="{Binding Row}" />
+                    <Setter Property="Grid.Column" Value="{Binding Column}" />
+                </Style>
+            </ItemsControl.Styles>
         </ItemsControl>
-    </Grid>
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Text="Mistakes Remaining:" />
+            <ItemsControl ItemsSource="{Binding MistakesRemaining}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:MistakeViewModel">
+                        <Ellipse Width="10" Height="10" Fill="Black" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Content="Shuffle" />
+            <Button Content="Deselect All" />
+            <Button Content="Submit" />
+        </StackPanel>
+
+    </StackPanel> 
 
 </Window>
